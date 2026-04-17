@@ -56,47 +56,20 @@ delimiter //
 create procedure insertCancelledOrders(out cantidad int)
 begin
 
-declare done int default false;
-declare v_orderNumber int;
-declare v_orderDate date;
-declare v_requiredDate date;
-declare v_shippedDate date;
-declare v_status varchar(15);
-declare v_comments text;
-declare v_customerNumber int;
-declare contador int default 0;
+    insert into CancelledOrders
+    select * from orders
+    where status = 'Cancelled';
 
-declare cur cursor for
-select orderNumber, orderDate, requiredDate, shippedDate,
-status, comments, customerNumber
-from orders
-where status = 'Cancelled';
-declare continue handler for not found set done = true;
-
-open cur;
-
-loop_orders: loop
-fetch cur into v_orderNumber, v_orderDate, v_requiredDate,
-v_shippedDate, v_status, v_comments, v_customerNumber;
-if done then
-leave loop_orders;
-end if;
-
-insert ignore into CancelledOrders
-(orderNumber, orderDate, requiredDate, shippedDate,
-status, comments, customerNumber)
-values
-(v_orderNumber, v_orderDate, v_requiredDate, v_shippedDate,
-v_status, v_comments, v_customerNumber);
-
-set contador = contador + 1;
-end loop;
-
-close cur;
-set cantidad = contador;
+    select count(*) into cantidad
+    from CancelledOrders;
 
 end //
 delimiter ;
+
+
+
+
+
 
 11. Realizar un SP que reciba el customerNumber y para todas las órdenes de ese
 customerNumber, si el campo comments esta vacío que lo complete con el siguiente
@@ -108,26 +81,24 @@ alterCommentOrder()
 delimiter //
 create procedure alterCommentOrder(in p_customerNumber int)
 begin
-
-declare done int default false;
+declare hayFilas boolean default 1;
 declare v_orderNumber int;
-declare v_comments text;
 declare v_total decimal(10,2);
 
 declare cur cursor for
-select orderNumber, comments from orders
-where customerNumber = p_customerNumber;
-declare continue handler for not found set done = true;
+select orderNumber from orders
+where customerNumber = p_customerNumber
+and (comments is null or trim(comments) = '');
+declare continue handler for not found set hayFilas = 0;
 
 open cur;
 
 loop_orders: loop
-fetch cur into v_orderNumber, v_comments;
-if done then
+fetch cur into v_orderNumber;
+if hayFilas = 0 then
 leave loop_orders;
 end if;
 
-if v_comments is null or trim(v_comments) = '' then
 select sum(quantityOrdered * priceEach)
 into v_total
 from orderdetails
@@ -136,12 +107,8 @@ where orderNumber = v_orderNumber;
 update orders
 set comments = concat('El total de la orden es ', v_total)
 where orderNumber = v_orderNumber;
-end if;
 end loop;
 
 close cur;
-
 end //
 delimiter ;
-
-
