@@ -112,3 +112,53 @@ end loop;
 close cur;
 end //
 delimiter ;
+
+13. Agregar una columna comisión en la tabla employees. Crear un SP que actualice la
+comisión de cada empleado. Si el empleado tiene ventas mayores a $100,000, su comisión
+es del 5%, si tiene ventas entre $50,000 y $100,000, su comisión es del 3%. Si tiene menos
+de $50,000 en ventas, no recibe comisión. actualizarComision().
+alter table employees add column comision decimal(10,2) default 0;
+
+delimiter //
+create procedure actualizarComision()
+begin
+declare hayFilas boolean default 1;
+declare v_employeeNumber int;
+declare v_ventas decimal(12,2);
+declare v_comision decimal(10,2);
+
+declare cur cursor for
+select e.employeeNumber,
+sum(od.quantityOrdered * od.priceEach) as totalVentas
+from employees e
+left join customers c on e.employeeNumber = c.salesRepEmployeeNumber
+left join orders o on c.customerNumber = o.customerNumber
+and o.status not in ('Cancelled')
+left join orderdetails od on o.orderNumber = od.orderNumber
+group by e.employeeNumber;
+declare continue handler for not found set hayFilas = 0;
+
+open cur;
+
+loop_emp: loop
+fetch cur into v_employeeNumber, v_ventas;
+if hayFilas = 0 then
+leave loop_emp;
+end if;
+
+if v_ventas > 100000 then
+set v_comision = v_ventas * 0.05;
+elseif v_ventas >= 50000 then
+set v_comision = v_ventas * 0.03;
+else
+set v_comision = 0;
+end if;
+
+update employees
+set comision = v_comision
+where employeeNumber = v_employeeNumber;
+end loop;
+
+close cur;
+end //
+delimiter ;
