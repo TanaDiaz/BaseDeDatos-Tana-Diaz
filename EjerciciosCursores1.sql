@@ -51,17 +51,47 @@ create table if not exists CancelledOrders (
     customerNumber int not null,
     primary key (orderNumber)
 );
-
 delimiter //
+
 create procedure insertCancelledOrders(out cantidad int)
 begin
+declare done int default 0;
 
-    insert into CancelledOrders
-    select * from orders
-    where status = 'Cancelled';
+declare v_orderNumber int;
+declare v_orderDate date;
+declare v_requiredDate date;
+declare v_shippedDate date;
+declare v_status varchar(15);
+declare v_comments text;
+declare v_customerNumber int;
 
-    select count(*) into cantidad
-    from CancelledOrders;
+declare cur_orders cursor for
+select orderNumber, orderDate, requiredDate, shippedDate, status, comments, customerNumber
+from orders;
+
+declare continue handler for not found set done = 1;
+
+set cantidad = 0;
+
+open cur_orders;
+
+read_loop: loop
+fetch cur_orders into v_orderNumber, v_orderDate, v_requiredDate, v_shippedDate,
+v_status, v_comments, v_customerNumber;
+
+if done = 1 then
+leave read_loop;
+end if;
+
+if v_status = 'Cancelled' then
+insert into CancelledOrders
+values (v_orderNumber, v_orderDate, v_requiredDate, v_shippedDate,
+v_status, v_comments, v_customerNumber);
+
+set cantidad = cantidad + 1;
+end if;
+end loop;
+close cur_orders;
 
 end //
 delimiter ;
