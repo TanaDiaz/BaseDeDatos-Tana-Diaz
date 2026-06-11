@@ -41,3 +41,54 @@ close cur;
 end
 delimiter ;
 
+
+
+
+
+5. Realice un procedimiento que actualice el precio unitario de los productos que están en
+pedidos pendientes de pago, al precio actual del producto
+
+
+delimiter //
+create procedure actualizarPendientes()
+begin
+
+declare hayFilas boolean default 1;
+declare v_codProducto int;
+declare precioActual int;
+declare precioUnitario int;
+
+
+declare cur cursor for
+select p.codProducto from Producto p
+join Pedido_Producto pp on pp.Producto_codProducto = p.codProducto
+join Pedido pe on pe.PedidoId = pp.Pedido_PedidoId
+join Estado e on e.idEstado = pe.Estado_idEstado
+where e.nombre = "Pendiente";
+
+declare continue handler for not found set hayFilas = 0;
+
+open cur;
+loop_pendientes: loop
+
+fetch cur into v_codProducto;
+
+if hayFilas = 0 then leave 
+loop_pendientes;
+end if;
+
+
+
+select precio into precioActual from Producto
+where codProducto = v_codProducto;
+
+update Pedido_Producto pp
+join Producto p on p.codProducto = pp.Producto_codProducto
+set precio_unitario = precioActual
+where v_codProducto = p.codProducto;
+
+end loop;
+close cur;
+
+end//
+delimiter ;
