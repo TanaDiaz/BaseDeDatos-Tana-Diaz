@@ -1,0 +1,45 @@
+[{
+  "_id": {
+    "$oid": "6acc6250a2356bdcd90ec954"
+  },
+  "nombre": "papu",
+  "apellido": "carlitos tevez",
+  "email": "elpapugod@gmail.com",
+  "clave": "23123223",
+  "direcciones_de_entrega": [
+    {
+      "calle": "pepito 2223",
+      "ciudad": "carabao cup",
+      "codigoPostal": "1314",
+      "provincia": "santiago del sexo"
+    },
+    {
+      "calle": "pepito 23432",
+      "ciudad": "copa del rey",
+      "codigoPostal": "11314",
+      "provincia": "capital del retetete"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6acc64a8a2356bdcd90ec956"
+  },
+  "usuario_id": {
+    "$oid": "6acc6250a2356bdcd90ec954"
+  },
+  "fecha": "11-01-26",
+  "monto_total": "1 gazillion dollars",
+  "productos": [
+    {
+      "id": "31321321",
+      "cantidad": "80121",
+      "precio_unitario": "3123213"
+    },
+    {
+      "id": "5555",
+      "cantidad": "0.2",
+      "precio_unitario": "7"
+    }
+  ]
+}]
