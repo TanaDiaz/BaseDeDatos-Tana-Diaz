@@ -1,0 +1,52 @@
+[{
+  "_id": {
+    "$oid": "6acc6900a2356bdcd90ec980"
+  },
+  "nombre": "Juan",
+  "apellido": "Perez",
+  "dni": "35123456",
+  "fecha_de_nacimiento": "1990-05-15",
+  "telefono": "+541155443322",
+  "historia_clinica": {
+    "numero_de_historia": "1",
+    "fecha_de_inicio": "2023-01-10",
+    "observaciones_generales": "Paciente alérgico al laburo.",
+    "registros_medicos": [
+      {
+        "fecha_de_consulta": "2026-02-10",
+        "diagnostico": "aura",
+        "tratamiento": "Reposo y paracetamol cada 8 horas",
+        "medico": "Dr. House"
+      },
+      {
+        "fecha_de_consulta": "2026-05-15",
+        "diagnostico": "Control anual",
+        "tratamiento": "Ninguno, todo en orden",
+        "medico": "Dra. polo"
+      }
+    ]
+  }
+},
+{
+  "_id": {
+    "$oid": "6acc6900a2356bdcd90ec981"
+  },
+  "nombre": "Rosa",
+  "apellido": "Melano",
+  "dni": "40987654",
+  "fecha_de_nacimiento": "1995-11-20",
+  "telefono": "+541199887766",
+  "historia_clinica": {
+    "numero_de_historia": "2",
+    "fecha_de_inicio": "2024-03-01",
+    "observaciones_generales": "problemas de cadera de mucho mover el booty",
+    "registros_medicos": [
+      {
+        "fecha_de_consulta": "2026-01-20",
+        "diagnostico": "desgarro en el tendon de aquiles",
+        "tratamiento": "no moverse por aproximadamente 2 decadas",
+        "medico": "the good doctor"
+      }
+    ]
+  }
+}]

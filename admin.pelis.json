@@ -1,0 +1,39 @@
+[{
+  "_id": {
+    "$oid": "6acc6775a2356bdcd90ec972"
+  },
+  "nombre": "enzo",
+  "apellido": "pulito",
+  "fecha_de_nacimiento": "14-01-07",
+  "nacionalidad": "indio"
+},
+{
+  "_id": {
+    "$oid": "6acc6814a2356bdcd90ec974"
+  },
+  "nombre": "benja",
+  "apellido": "graggia",
+  "fecha_de_nacimiento": "14-21-07",
+  "nacionalidad": "turco"
+},
+{
+  "_id": {
+    "$oid": "6acc6740a2356bdcd90ec971"
+  },
+  "título": "la venganza de los chamos 13",
+  "año": "2026",
+  "género": "acción",
+  "duración": "120 horas",
+  "actores": [
+    {
+      "actorid": {
+        "$oid": "6acc6740a2356bdcd90ec971"
+      }
+    },
+    {
+      "actorid": {
+        "$oid": "6acc6814a2356bdcd90ec974"
+      }
+    }
+  ]
+}]

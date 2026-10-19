@@ -1,0 +1,38 @@
+[{
+  "_id": {
+    "$oid": "6acc69d5a2356bdcd90ec978"
+  },
+  "nombre": "uri",
+  "apellido": "papulince",
+  "email": "gokuaura2009@gmail.com",
+  "título": "sexologo"
+},
+{
+  "_id": {
+    "$oid": "6acc6a02a2356bdcd90ec979"
+  },
+  "nombre": "feduxiano",
+  "apellido": "marciano",
+  "email": "niganiginigi@gmail.com",
+  "título": "lic. en aura"
+},
+{
+  "_id": {
+    "$oid": "6acc6a46a2356bdcd90ec97a"
+  },
+  "nombreMateria": "sigmatologia I",
+  "código": "de calle",
+  "horas": "67",
+  "profesores": [
+    {
+      "profe_id": {
+        "$oid": "6acc6a02a2356bdcd90ec979"
+      }
+    },
+    {
+      "profe_id": {
+        "$oid": "6acc69d5a2356bdcd90ec978"
+      }
+    }
+  ]
+}]
